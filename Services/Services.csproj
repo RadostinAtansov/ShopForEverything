@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Implemetation\" />
-    <Folder Include="IShopServices\" />
+    <ProjectReference Include="..\Data.Model\Data.Model.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
 </Project>
