@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Services.Model.ShopEverything.ShowAllStockServiceViewModel>
+
+@{
+    ViewData["Title"] = "ShowAllStocks";
+}
+
+<h1>All Stocks</h1>
+<br />
+<br />
+
+<div class="row">
+@foreach (var item in Model) {
+
+
+    <div class="card text-white bg-dark mb-3" style="max-width: 20rem; margin-right:7em">
+            <div class="card-header">@item.Name <a href="" style="float:right; color:orangered"> <i class="fa-solid fa-heart-pulse"></i></a></div>
+        <div class="card-body">
+            <h4 class="card-title">@item.Price</h4>
+            <p class="card-text">@item.Description</p>
+            <a href="~/Images/@item.Picture" style="float:right">
+                    <img src="~/Images/@item.Picture" width="80" height="80">
+            </a>
+       @*         <button type="button" class="btn btn-outline-success">Primary</button>
+                <button type="button" class="btn btn-outline-warning">Make deal</button>*@
+                <button type="button" class="btn btn-outline-info">Details</button>
+
+        </div>
+
+    </div>
+    <br />
+        
+}
+<br />
+
+</div>
+    <div style="display:flex;justify-content:center"">
+        <ul class="pagination pagination-lg">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">5</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+

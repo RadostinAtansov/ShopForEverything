@@ -1,25 +1,37 @@
+using Data;
 using Data.Model.ShopEverything;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Services.Implemetation;
 using Services.IShopServices;
 using ShopForEverything.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<ShopEverythingDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ShopEverythingDbContext>();
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddMvc();
+
+builder.Services.AddHealthChecks();
+
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ShopEverythingDbContext>();
 
 builder.Services.AddTransient<IStockService, StockService>();
+
 
 var app = builder.Build();
 

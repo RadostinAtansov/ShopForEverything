@@ -1,4 +1,5 @@
 ﻿using Data.Model.DataValidation;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -24,6 +25,6 @@ namespace Services.Model.ShopEverything
 
         public string Color { get; set; }
 
-        public string Picture { get; set; }
+        public IFormFile Picture { get; set; }
     }
 }

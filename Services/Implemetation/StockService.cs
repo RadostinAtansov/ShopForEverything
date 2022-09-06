@@ -15,7 +15,7 @@ namespace Services.Implemetation
             this.data = data;
         }
 
-        public void AddStock(AddStockServiceViewModel stock)
+        public void AddStock(AddStockServiceViewModel stock, string path)
         {
             var stockAdd = new Stock
             {
@@ -23,13 +23,31 @@ namespace Services.Implemetation
                  Name = stock.Name,
                  Color = stock.Color,
                  Price = stock.Price,
-                 Picture = stock.Picture,
+                 Picture = path,
                  Description = stock.Description,
                  StockNumber = stock.StockNumber,
             };
 
             this.data.Stocks.Add(stockAdd);
             this.data.SaveChanges();
+        }
+
+        ICollection<ShowAllStockServiceViewModel> IStockService.ShowAllStocks()
+        {
+            var stocks = this.data.Stocks
+            .Select(x => new ShowAllStockServiceViewModel
+            {
+                Name = x.Name,
+                Size = x.Size,
+                Color = x.Color,
+                Description = x.Description,
+                Picture = x.Picture,
+                Price = x.Price,
+                StockNumber = x.StockNumber,
+            })
+            .ToList();
+
+            return stocks;
         }
     }
 }
