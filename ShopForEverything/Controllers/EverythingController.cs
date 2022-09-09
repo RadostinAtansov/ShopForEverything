@@ -1,9 +1,9 @@
 ﻿using Data;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Services.IShopServices;
+using Microsoft.AspNetCore.Mvc;
 using Services.Model.ShopEverything;
+using Microsoft.AspNetCore.Authorization;
+using ShopForEverything.Models;
 
 namespace ShopForEverything.Controllers
 {
@@ -38,10 +38,29 @@ namespace ShopForEverything.Controllers
             return View();
         }
 
-        public IActionResult ShowAllStocks()
+        public IActionResult ShowAllStocks(int pg = 1)
         {
-            
-            return View(this.stockService.ShowAllStocks());
+            var allStocks = this.stockService.ShowAllStocks();
+
+            const int pageSize = 6;
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = allStocks.Count();
+
+            var pager = new Pager(recsCount, pg, pageSize);
+
+            int recsSkip = (pg - 1) * pageSize;
+
+            var data = allStocks.Skip(recsSkip).Take(pager.PageSize)
+                .ToList();
+
+            this.ViewBag.Pager = pager;
+
+            //return View(allStocks);
+            return View(data);
+
+
         }
  
         public IActionResult AddStock()
