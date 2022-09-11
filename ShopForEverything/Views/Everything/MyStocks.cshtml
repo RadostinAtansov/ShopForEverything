@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ShopForEverything.Models.ShowAllFavoriteUserStocksServiceViewModel>
+
+@{
+    ViewData["Title"] = "ShowAllStocks";
+
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+
+<h1>All Stocks</h1>
+<br />
+<br />
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+
+        <div class="card text-white bg-dark mb-3" style="max-width: 20rem; margin-right:7em">
+            <div class="card-header">@item.Name</div>
+            <div class="card-body">
+                <h4 class="card-title">@item.Price</h4>
+                <p class="card-text">@item.Description</p>
+                <a href="~/Images/@item.Picture" style="float:right">
+                    <img src="~/Images/@item.Picture" width="80" height="80">
+                </a>
+                        <button type="button" class="btn btn-outline-success">Edit</button>
+                        <button type="button" class="btn btn-outline-warning">Delete</button>
+                        <button type="button" class="btn btn-outline-info">Details</button>
+
+            </div>
+
+        </div>
+    }
+</div>
+
+<partial name="_pagerMyStock" model="@pager" />

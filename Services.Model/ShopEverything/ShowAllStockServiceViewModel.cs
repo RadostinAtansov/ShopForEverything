@@ -22,5 +22,7 @@ namespace Services.Model.ShopEverything
         public string Description { get; set; }
 
         public string StockNumber { get; set; }
+
+        public string AddedFromUser { get; set; }
     }
 }

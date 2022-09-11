@@ -1,7 +1,10 @@
 ﻿using Data;
 using Data.Model.ShopEverything;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Services.IShopServices;
 using Services.Model.ShopEverything;
+using ShopForEverything.Models;
 
 namespace Services.Implemetation
 {
@@ -9,27 +12,56 @@ namespace Services.Implemetation
     {
 
         private readonly ShopEverythingDbContext data;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public StockService(ShopEverythingDbContext data)
+        public StockService(ShopEverythingDbContext data, UserManager<IdentityUser> userManager)
         {
             this.data = data;
+            this.userManager = userManager;
         }
 
-        public void AddStock(AddStockServiceViewModel stock, string path)
+        public async Task AddStock(AddStockServiceViewModel stock, string path, HttpContext httpContext)
         {
+
+            var userName = await userManager.GetUserAsync(httpContext.User);
+            var name = userName.UserName;
+
             var stockAdd = new Stock
             {
-                 Size = stock.Size,
-                 Name = stock.Name,
-                 Color = stock.Color,
-                 Price = stock.Price,
-                 Picture = path,
-                 Description = stock.Description,
-                 StockNumber = stock.StockNumber,
+                Size = stock.Size,
+                Name = stock.Name,
+                Color = stock.Color,
+                Price = stock.Price,
+                Picture = path,
+                Description = stock.Description,
+                StockNumber = stock.StockNumber,
+                AddedFromUser = name,
             };
 
-            this.data.Stocks.Add(stockAdd);
-            this.data.SaveChanges();
+            await this.data.Stocks.AddAsync(stockAdd);
+            await this.data.SaveChangesAsync();
+        }
+
+        public async Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext)
+        {
+            var userName = await userManager.GetUserAsync(httpContext.User);
+            var name = userName.UserName;
+
+            var allUserStocks = this.data.Stocks
+                .Where(x => x.AddedFromUser == name)
+                .Select(u => new ShowAllFavoriteUserStocksServiceViewModel
+                {
+                    Name = u.Name,
+                    Size = u.Size,
+                    Color = u.Color,
+                    Price = u.Price,
+                    Picture = u.Picture,
+                    Description = u.Description,
+                    StockNumber = u.StockNumber,
+                })
+                .ToList();
+
+            return allUserStocks;
         }
 
         ICollection<ShowAllStockServiceViewModel> IStockService.ShowAllStocks()

@@ -30,6 +30,10 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AddedFromUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace Data.Model.ShopEverything
 {
@@ -24,5 +25,7 @@ namespace Data.Model.ShopEverything
         public string Color { get; set; }
 
         public string Picture { get; set; }
+
+        public string AddedFromUser { get; set; }
     }
 }
