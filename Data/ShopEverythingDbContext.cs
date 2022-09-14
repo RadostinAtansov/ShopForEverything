@@ -11,6 +11,8 @@ namespace Data
         public ShopEverythingDbContext(DbContextOptions<ShopEverythingDbContext> options) : base(options) {}
 
         public DbSet<Stock> Stocks { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<FavoriteStock> FavoriteStocks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -18,9 +20,9 @@ namespace Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
 
-            //builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

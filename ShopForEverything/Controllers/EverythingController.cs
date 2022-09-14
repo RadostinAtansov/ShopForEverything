@@ -74,8 +74,11 @@ namespace ShopForEverything.Controllers
 
 
         }
-        public IActionResult FavoriteStock()
+
+        public IActionResult FavoriteStock(int id)
         {
+                
+
             return View();
         }
 
