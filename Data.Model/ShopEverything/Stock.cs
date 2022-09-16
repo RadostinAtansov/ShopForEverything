@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Model.ShopEverything
 {
@@ -6,7 +7,8 @@ namespace Data.Model.ShopEverything
 
     public class Stock
     {
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
 
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
@@ -26,5 +28,7 @@ namespace Data.Model.ShopEverything
         public string Picture { get; set; }
 
         public string AddedFromUser { get; set; }
+
+        public ICollection<UserFavoriteStocks> ApplicationUsers { get; set; } = new HashSet<UserFavoriteStocks>();
     }
 }

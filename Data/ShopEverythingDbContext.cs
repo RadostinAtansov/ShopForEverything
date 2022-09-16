@@ -12,7 +12,7 @@ namespace Data
 
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<FavoriteStock> FavoriteStocks { get; set; }
+        public DbSet<UserFavoriteStocks> UserFavoriteStocks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {

@@ -1,12 +1,10 @@
 using Data;
-using Data.Model.ShopEverything;
 using Services.Implemetation;
 using Services.IShopServices;
-using ShopForEverything.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -31,7 +29,7 @@ builder.Services.AddHealthChecks();
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ShopEverythingDbContext>();
 
 builder.Services.AddTransient<IStockService, StockService>();
-
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 

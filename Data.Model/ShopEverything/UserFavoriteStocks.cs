@@ -6,6 +6,6 @@
         public ApplicationUser ApplicationUser { get; set; }
 
         public string FavoriteStockId { get; set; }
-        public FavoriteStock FavoriteStock { get; set; }
+        public Stock FavoriteStock { get; set; }
     }
 }

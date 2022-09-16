@@ -69,6 +69,7 @@ namespace Services.Implemetation
             var stocks = this.data.Stocks
             .Select(x => new ShowAllStockServiceViewModel
             {
+                Id = x.Id,
                 Name = x.Name,
                 Size = x.Size,
                 Color = x.Color,

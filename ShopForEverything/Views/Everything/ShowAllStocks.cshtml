@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Services.Model.ShopEverything.ShowAllStockServiceViewModel>
+﻿@model IEnumerable<ShowAllStockServiceViewModel>
 
 
 @{
@@ -25,7 +25,7 @@
 
 
     <div class="card text-white bg-dark mb-3" style="max-width: 20rem; margin-right:7em">
-            <div class="card-header">@item.Name <a href="" style="float:right; color:orangered"> <i class="fa-solid fa-heart-pulse"></i></a></div>
+            <div class="card-header">@item.Name <a asp-controller="Everything" asp-action="FavoriteStock" asp-route-id="@item.Id" style="float:right; color:orangered"> <i class="fa-solid fa-heart-pulse"></i></a></div>
         <div class="card-body">
             <h4 class="card-title">@item.Price</h4>
             <p class="card-text">@item.Description</p>

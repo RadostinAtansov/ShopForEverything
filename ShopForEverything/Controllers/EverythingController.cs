@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Model.ShopEverything;
 using Microsoft.AspNetCore.Authorization;
 using ShopForEverything.Models;
+//using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
+using Data.Model.ShopEverything;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace ShopForEverything.Controllers
 {
@@ -13,7 +17,7 @@ namespace ShopForEverything.Controllers
     {
         private readonly IStockService stockService;
         private readonly ShopEverythingDbContext data;
-        private readonly HttpContext httpContext;
+        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserManager<IdentityUser> userMaganer;
 
         public IWebHostEnvironment WebHostEnvironment;
@@ -21,12 +25,14 @@ namespace ShopForEverything.Controllers
         public EverythingController(IStockService stockService, 
             ShopEverythingDbContext data,
             IWebHostEnvironment webHostEnvironment,
-            UserManager<IdentityUser> userMaganer)
+            UserManager<IdentityUser> userMaganer,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.data = data;
             this.stockService = stockService;
             WebHostEnvironment = webHostEnvironment;
             this.userMaganer = userMaganer;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> MyStocks(int pg = 1)
@@ -75,11 +81,64 @@ namespace ShopForEverything.Controllers
 
         }
 
-        public IActionResult FavoriteStock(int id)
+        public async Task<IActionResult> Favorite()
         {
-                
+            var userName = await userMaganer.GetUserAsync(httpContextAccessor.HttpContext.User);
+            var name = userName.UserName;
 
-            return View();
+            var user = this.data.Users
+                .FirstOrDefault(u => u.UserName == name);
+
+            var favStock = this.data.UserFavoriteStocks
+                .Where(a => a.ApplicationUserId == user.Id)
+                .Select(s => new ShowAllFavoriteStockViewModel
+                {
+                     Color = s.FavoriteStock.Color,
+                     Description = s.FavoriteStock.Description,
+                     Name = s.FavoriteStock.Name,
+                     Picture = s.FavoriteStock.Picture,
+                     Price = s.FavoriteStock.Price,
+                     Size = s.FavoriteStock.Size,
+                     StockNumber = s.FavoriteStock.StockNumber,
+                })
+                .ToList();
+
+            if (favStock.Count == 0)
+            {
+                return View();
+            }
+
+            return View(favStock);
+
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public async Task<IActionResult> FavoriteStock(string id)
+        {
+            var userName = await userMaganer.GetUserAsync(httpContextAccessor.HttpContext.User);
+            var name = userName.UserName;
+
+            var stock = this.data.Stocks
+                .FirstOrDefault(s => s.Id == id);
+
+            var userFavStock = new UserFavoriteStocks()
+            {
+                ApplicationUserId = userName.Id,
+                FavoriteStockId = stock.Id,
+            };
+
+            try
+            {
+                await this.data.UserFavoriteStocks.AddAsync(userFavStock);
+                await this.data.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Bag()

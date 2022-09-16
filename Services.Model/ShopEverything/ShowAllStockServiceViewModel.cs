@@ -9,6 +9,9 @@ namespace Services.Model.ShopEverything
     {
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
+
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public decimal Price { get; set; }
