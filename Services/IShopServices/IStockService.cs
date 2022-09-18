@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Services.Model.ShopEverything;
+﻿using Services.Model.ShopEverything;
+using Microsoft.AspNetCore.Http;
 using ShopForEverything.Models;
 
 namespace Services.IShopServices
@@ -9,5 +9,6 @@ namespace Services.IShopServices
         Task AddStock(AddStockServiceViewModel model, string path, HttpContext httpContext);
         ICollection<ShowAllStockServiceViewModel> ShowAllStocks();
         Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext);
+        Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext);
     }
 }

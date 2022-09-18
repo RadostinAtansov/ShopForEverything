@@ -1,82 +1,45 @@
-﻿@model IEnumerable<ShowAllFavoriteStockViewModel>
+﻿@model ICollection<ShowAllFavoriteUserStocksServiceViewModel>
 
 @{
-    ViewData["Title"] = "FavoriteStock";
+    ViewData["Title"] = "ShowAllStocks";
+
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
-<h1>FavoriteStock</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        @if (Model != null)
-        {
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Size)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StockNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Color)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Picture)
-                </th>
-                <th></th>
-            </tr>
-        }
-    </thead>
-    <tbody>
-        @if (Model == null)
-        {
-            <h1>No favorite stocks</h1>
-        }
-        else
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Size)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StockNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Color)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Picture)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
-                </tr>
-            }
-}
-    </tbody>
-</table>
+<h1>All Stocks</h1>
+<br />
+<br />
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+
+        <div class="card text-white bg-dark mb-3" style="max-width: 20rem; margin-right:7em">
+            <div class="card-header">@item.Name</div>
+            <div class="card-body">
+                <h4 class="card-title">@item.Price</h4>
+                <p class="card-text">@item.Description</p>
+                <a href="~/Images/@item.Picture" style="float:right">
+                    <img src="~/Images/@item.Picture" width="80" height="80">
+                </a>
+                <button type="button" class="btn btn-outline-success">Details</button>
+                <button type="button" class="btn btn-outline-warning">RemoveFromFavorite</button>
+                <button type="button" class="btn btn-outline-info">Buy</button>
+
+            </div>
+
+        </div>
+    }
+</div>
+
+<partial name="_pagerMyFavoriteStock" model="@pager" />

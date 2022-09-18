@@ -42,6 +42,12 @@ namespace Services.Implemetation
             await this.data.SaveChangesAsync();
         }
 
+        public async Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext)
+        {
+           
+            return null;
+        }
+
         public async Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext)
         {
             var userName = await userManager.GetUserAsync(httpContext.User);
