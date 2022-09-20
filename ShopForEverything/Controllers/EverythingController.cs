@@ -1,17 +1,16 @@
 ﻿using Data;
 using Services.IShopServices;
 using Microsoft.AspNetCore.Mvc;
-using Services.Model.ShopEverything;
-using Microsoft.AspNetCore.Authorization;
+using Xceed.Wpf.Toolkit;
 using ShopForEverything.Models;
 //using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Identity;
-using Data.Model.ShopEverything;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Xceed.Wpf.Toolkit;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http;
+using Data.Model.ShopEverything;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Services.Model.ShopEverything;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace ShopForEverything.Controllers
 {
@@ -36,6 +35,15 @@ namespace ShopForEverything.Controllers
             this.stockService = stockService;
             WebHostEnvironment = webHostEnvironment;
             this.httpContextAccessor = httpContextAccessor;
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public IActionResult ShowDetailsStock(string id)
+        {
+            var stock = this.stockService.DetailsStock(id);
+
+            return View(stock);
         }
 
         public async Task<IActionResult> MyStocks(int pg = 1)
@@ -84,8 +92,11 @@ namespace ShopForEverything.Controllers
 
         }
 
-        public async Task<IActionResult> Favorite()
+        public async Task<IActionResult> MyFavorite(int pg = 1)
         {
+
+            //When put this throught service it dosn't work
+
             //var favStock = this.stockService.ShowAllMyFavoriteStocks(HttpContext);
 
             var userName = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);
@@ -108,19 +119,34 @@ namespace ShopForEverything.Controllers
                 })
                 .ToList();
 
+                const int pageSize = 6;
+                if (pg < 1)
+                    pg = 1;
 
-            if (favStock.Count() == null)
+                int stockCount = favStock.Count();
+
+                var pager = new Pager(stockCount, pg, pageSize);
+
+                int stockSkip = (pg - 1) * pageSize;
+
+                var data = favStock.Skip(stockSkip).Take(pager.PageSize)
+                    .ToList();
+
+                this.ViewBag.Pager = pager;
+
+
+            if (data.Count() == null)
             {
                 return View();
             }
 
-            return View(favStock);
+            return View(data);
 
         }
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> FavoriteStock(string id)
+        public async Task<IActionResult> AddToFavoriteStock(string id)
         {
             var userName = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);
             var name = userName.UserName;
@@ -135,18 +161,21 @@ namespace ShopForEverything.Controllers
             };
 
             try
-            {
+            { 
                 await this.data.UserFavoriteStocks.AddAsync(userFavStock);
                 await this.data.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //add message for u add this to favorite
-                
-                Console.WriteLine(e.Message);
+                TempData["AlertMessageNegative"] = "Negative, Cant Add to favorite two times";
+                return RedirectToAction("ShowAllStocks", "Everything");
             }
+            finally
+            {
+                TempData["AlertMessageSuccessefully"] = "Successefully Added to favorite";
+            }
+            return RedirectToAction("ShowAllStocks", "Everything");
 
-            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Bag()
@@ -178,6 +207,7 @@ namespace ShopForEverything.Controllers
         private string UploadFile(IFormFile model)
         {
             string fileName = null;
+
             if (model != null)
             {
                 string uploadDir = Path.Combine(WebHostEnvironment.WebRootPath, "Images");

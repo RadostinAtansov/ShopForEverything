@@ -15,6 +15,19 @@
     }
 }
 
+@if (TempData["AlertMessageNegative"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["AlertMessageNegative"]
+        @TempData.("AlertMessageNegative");
+    </div>
+}
+else if (TempData["AlertMessageSuccessefully"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["AlertMessageSuccessefully"]
+    </div>
+}
 
 <h1>All Stocks</h1>
 <br />
@@ -25,16 +38,18 @@
 
 
     <div class="card text-white bg-dark mb-3" style="max-width: 20rem; margin-right:7em">
-            <div class="card-header">@item.Name <a asp-controller="Everything" asp-action="FavoriteStock" asp-route-id="@item.Id" style="float:right; color:orangered"> <i class="fa-solid fa-heart-pulse"></i></a></div>
+            <div class="card-header">@item.Name <a asp-controller="Everything" asp-action="AddToFavoriteStock" asp-route-id="@item.Id" style="float:right; color:orangered"> <i class="fa-solid fa-heart-pulse"></i></a></div>
         <div class="card-body">
             <h4 class="card-title">@item.Price</h4>
             <p class="card-text">@item.Description</p>
             <a href="~/Images/@item.Picture" style="float:right">
                     <img src="~/Images/@item.Picture" width="80" height="80">
             </a>
-       @*         <button type="button" class="btn btn-outline-success">Primary</button>
-                <button type="button" class="btn btn-outline-warning">Make deal</button>*@
-                <button type="button" class="btn btn-outline-info">Details</button>
+                @*<button type="button" class="btn btn-outline-success">Primary</button>*@
+                <button type="button" class="btn btn-outline-warning">Buy</button>
+                <button type="button" class="btn btn-outline-info">
+                    <a asp-controller="Everything" asp-action="ShowDetailsStock" asp-route-id="@item.Id">Details</a>
+                </button>
 
         </div>
 

@@ -1,0 +1,24 @@
+﻿@model ShowStockDetailsServiceViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+<h1> Details</h1>
+
+
+<div>
+
+    <div class="card-body">
+        <h3>@Model.Name</h3>
+        <p>
+            @Model.Description
+        </p>
+        <p>@Model.Price</p>
+        <p>@Model.Color</p>
+        <p>@Model.Size</p>
+        <p>@Model.AddedFromUser</p>
+        <p>@Model.StockNumber</p>
+        <img src="~/Images/@Model.Picture"/>
+    </div>
+
+</div>

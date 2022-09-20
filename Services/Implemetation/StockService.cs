@@ -42,9 +42,50 @@ namespace Services.Implemetation
             await this.data.SaveChangesAsync();
         }
 
+        public ShowStockDetailsServiceViewModel DetailsStock(string id)
+        {
+            var stock = this.data.Stocks
+                .Where(k => k.Id == id)
+                .Select(v => new ShowStockDetailsServiceViewModel
+                {
+                    Name = v.Name,
+                    Size = v.Size,
+                    Color = v.Color,
+                    Price = v.Price,
+                    Picture = v.Picture,
+                    Description = v.Description,
+                    StockNumber = v.StockNumber,
+                    AddedFromUser = v.AddedFromUser,
+                })
+                .FirstOrDefault();
+                
+
+            return stock;
+
+        }
+
         public async Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext)
         {
-           
+            //var userName = await userManager.GetUserAsync(httpContext.User);
+            //var name = userName.UserName;
+
+            //var user = this.data.Users
+            //    .FirstOrDefault(u => u.UserName == name);
+
+            //var favStock = this.data.UserFavoriteStocks
+            //    .Where(a => a.ApplicationUserId == user.Id)
+            //    .Select(s => new ShowAllFavoriteUserStocksServiceViewModel
+            //    {
+            //        Color = s.FavoriteStock.Color,
+            //        Description = s.FavoriteStock.Description,
+            //        Name = s.FavoriteStock.Name,
+            //        Picture = s.FavoriteStock.Picture,
+            //        Price = s.FavoriteStock.Price,
+            //        Size = s.FavoriteStock.Size,
+            //        StockNumber = s.FavoriteStock.StockNumber,
+            //    })
+            //    .ToList();
+
             return null;
         }
 

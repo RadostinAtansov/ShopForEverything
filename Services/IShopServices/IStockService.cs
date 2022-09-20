@@ -10,5 +10,6 @@ namespace Services.IShopServices
         ICollection<ShowAllStockServiceViewModel> ShowAllStocks();
         Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext);
         Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext);
+        ShowStockDetailsServiceViewModel DetailsStock(string id);
     }
 }
