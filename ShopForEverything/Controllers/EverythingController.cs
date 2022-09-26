@@ -37,6 +37,14 @@ namespace ShopForEverything.Controllers
             this.httpContextAccessor = httpContextAccessor;
         }
 
+
+        public IActionResult MyStockDetails(string id)
+        {
+            var stock = this.stockService.MyStockDetails(id);
+
+            return View(stock);
+        }
+
         [HttpGet]
         [HttpPost]
         public IActionResult ShowDetailsStock(string id)
@@ -109,6 +117,7 @@ namespace ShopForEverything.Controllers
                 .Where(a => a.ApplicationUserId == user.Id)
                 .Select(s => new ShowAllFavoriteUserStocksServiceViewModel
                 {
+                    Id = s.FavoriteStock.Id,
                     Color = s.FavoriteStock.Color,
                     Description = s.FavoriteStock.Description,
                     Name = s.FavoriteStock.Name,

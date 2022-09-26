@@ -64,6 +64,26 @@ namespace Services.Implemetation
 
         }
 
+        public DetailsMyStockServiceViewModel MyStockDetails(string id)
+        {
+            var myStock = this.data.Stocks
+                .Select(a => new DetailsMyStockServiceViewModel
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Size = a.Size,
+                    Color = a.Color,
+                    Price = a.Price,
+                    Picture = a.Picture,
+                    Description = a.Description,
+                    StockNumber = a.StockNumber,
+                })
+                .FirstOrDefault();
+
+
+            return myStock;
+        }
+
         public async Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext)
         {
             //var userName = await userManager.GetUserAsync(httpContext.User);

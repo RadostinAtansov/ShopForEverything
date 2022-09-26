@@ -1,18 +1,11 @@
-﻿using Data.Model.DataValidation;
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Services.Model.ShopEverything
 {
-    using static DataValidation;
-
-    public class AddStockServiceViewModel
+    public class DetailsMyStockServiceViewModel
     {
         public string Id { get; set; }
 
-        [Required]
-        [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -25,6 +18,6 @@ namespace Services.Model.ShopEverything
 
         public string Color { get; set; }
 
-        public IFormFile Picture { get; set; }
+        public string Picture { get; set; }
     }
 }
