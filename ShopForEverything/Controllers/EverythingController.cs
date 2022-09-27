@@ -1,16 +1,12 @@
 ﻿using Data;
 using Services.IShopServices;
 using Microsoft.AspNetCore.Mvc;
-using Xceed.Wpf.Toolkit;
 using ShopForEverything.Models;
-//using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Http;
 using Data.Model.ShopEverything;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Services.Model.ShopEverything;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+
 
 namespace ShopForEverything.Controllers
 {
@@ -37,7 +33,18 @@ namespace ShopForEverything.Controllers
             this.httpContextAccessor = httpContextAccessor;
         }
 
+        [HttpGet]
+        [HttpPost]
+        public IActionResult MyFavoriteStockDetails(string id)
+        {
+            var favoriteStock = this.stockService.MyFavoriteStockDetails(id);
 
+            return View(favoriteStock);
+        }
+
+
+        [HttpGet]
+        [HttpPost]
         public IActionResult MyStockDetails(string id)
         {
             var stock = this.stockService.MyStockDetails(id);

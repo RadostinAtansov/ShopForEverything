@@ -32,7 +32,11 @@
                 <a href="~/Images/@item.Picture" style="float:right">
                     <img src="~/Images/@item.Picture" width="80" height="80">
                 </a>
-                <button type="button" class="btn btn-outline-success">Details</button>
+                <button type="button" class="btn btn-outline-success">
+                    <a asp-controller="Everything" asp-action="MyFavoriteStockDetails" asp-route-id="@item.Id">
+                        Details
+                    </a>
+                </button>
                 <button type="button" class="btn btn-outline-warning">RemoveFromFavorite</button>
                 <button type="button" class="btn btn-outline-info">Buy</button>
 

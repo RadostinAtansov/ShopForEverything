@@ -12,5 +12,6 @@ namespace Services.IShopServices
         Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext);
         ShowStockDetailsServiceViewModel DetailsStock(string id);
         DetailsMyStockServiceViewModel MyStockDetails(string id);
+        DetailsMyStockServiceViewModel MyFavoriteStockDetails(string id);
     }
 }

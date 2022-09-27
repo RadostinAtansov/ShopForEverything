@@ -28,6 +28,7 @@ namespace Services.Implemetation
 
             var stockAdd = new Stock
             {
+                Id = stock.Id,
                 Size = stock.Size,
                 Name = stock.Name,
                 Color = stock.Color,
@@ -67,6 +68,28 @@ namespace Services.Implemetation
         public DetailsMyStockServiceViewModel MyStockDetails(string id)
         {
             var myStock = this.data.Stocks
+                .Where(k => k.Id == id)
+                .Select(a => new DetailsMyStockServiceViewModel
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Size = a.Size,
+                    Color = a.Color,
+                    Price = a.Price,
+                    Picture = a.Picture,
+                    Description = a.Description,
+                    StockNumber = a.StockNumber,
+                })
+                .FirstOrDefault();
+
+
+            return myStock;
+        }
+
+        public DetailsMyStockServiceViewModel MyFavoriteStockDetails(string id)
+        {
+            var myStock = this.data.Stocks
+                .Where(k => k.Id == id)
                 .Select(a => new DetailsMyStockServiceViewModel
                 {
                     Id = a.Id,
@@ -118,6 +141,7 @@ namespace Services.Implemetation
                 .Where(x => x.AddedFromUser == name)
                 .Select(u => new ShowAllFavoriteUserStocksServiceViewModel
                 {
+                    Id = u.Id,
                     Name = u.Name,
                     Size = u.Size,
                     Color = u.Color,

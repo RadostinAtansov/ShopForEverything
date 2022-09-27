@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+h1 {
+    text-align: center
+}
+
+section {
+    text-align: center
+}
+
+p {
+    font-size: 15px;
+}
