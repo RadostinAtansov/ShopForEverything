@@ -13,5 +13,7 @@ namespace Services.IShopServices
         ShowStockDetailsServiceViewModel DetailsStock(string id);
         DetailsMyStockServiceViewModel MyStockDetails(string id);
         DetailsMyStockServiceViewModel MyFavoriteStockDetails(string id);
+
+        void DeleteMyStock(string id);
     }
 }

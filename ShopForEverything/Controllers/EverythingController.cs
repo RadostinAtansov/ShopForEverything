@@ -35,6 +35,15 @@ namespace ShopForEverything.Controllers
 
         [HttpGet]
         [HttpPost]
+        public IActionResult DeleteMyStock(string id)
+        {
+            this.stockService.DeleteMyStock(id);
+
+            return RedirectToAction("ShowAllStocks", "Everything");
+        }
+
+        [HttpGet]
+        [HttpPost]
         public IActionResult MyFavoriteStockDetails(string id)
         {
             var favoriteStock = this.stockService.MyFavoriteStockDetails(id);
@@ -208,10 +217,10 @@ namespace ShopForEverything.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStock(AddStockServiceViewModel stock)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View();
+            //}
 
             string stringFile = UploadFile(stock.Picture);
 

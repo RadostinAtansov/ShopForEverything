@@ -173,5 +173,24 @@ namespace Services.Implemetation
 
             return stocks;
         }
+
+        public void DeleteMyStock(string id)
+        {
+            var myStock = this.data.Stocks.Find(id);
+
+            var stockFavUser = this.data
+                .UserFavoriteStocks
+                .Where(a => a.FavoriteStockId == id)
+                .ToList();
+
+            for (int i = 0; i < stockFavUser.Count; i++)
+            {
+                this.data.UserFavoriteStocks.Remove(stockFavUser[i]);
+            }
+
+
+            this.data.Stocks.Remove(myStock);
+            this.data.SaveChanges();
+        }
     }
 }
