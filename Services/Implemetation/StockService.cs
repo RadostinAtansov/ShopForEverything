@@ -192,5 +192,25 @@ namespace Services.Implemetation
             this.data.Stocks.Remove(myStock);
             this.data.SaveChanges();
         }
+
+        public EditMyStockServiceViewModel EditMyStock(string id)
+        {
+            var stock = this.data.Stocks
+                .Select(s => new EditMyStockServiceViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Size = s.Size,
+                    Price = s.Price,
+                    Color = s.Color,
+                    Picture= s.Picture,
+                    StockNumber= s.StockNumber,
+                    Description= s.Description,
+                    AddFromUser = s.AddedFromUser,
+                })
+                .FirstOrDefault();
+
+            return stock;
+        }
     }
 }

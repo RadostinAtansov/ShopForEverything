@@ -6,6 +6,7 @@ using Data.Model.ShopEverything;
 using Microsoft.AspNetCore.Identity;
 using Services.Model.ShopEverything;
 using Microsoft.AspNetCore.Authorization;
+using System.Xml.Linq;
 
 
 namespace ShopForEverything.Controllers
@@ -31,6 +32,34 @@ namespace ShopForEverything.Controllers
             this.stockService = stockService;
             WebHostEnvironment = webHostEnvironment;
             this.httpContextAccessor = httpContextAccessor;
+        }
+
+        [HttpGet]
+        public IActionResult EditMyStock(string id)
+        {
+            var stock = this.stockService.EditMyStock(id);
+
+            return View(stock);
+        }
+
+        [HttpPost]
+        public IActionResult EditMyStock(EditMyStockServiceViewModel model, string id)
+        {
+
+            var stockFromData = this.data.Stocks.Find(model.Id);
+
+            stockFromData.Name = model.Name;
+            stockFromData.Size = model.Size;
+            stockFromData.Price = model.Price;
+            stockFromData.Color = model.Color;
+            stockFromData.Picture = model.Picture;
+            stockFromData.Description = model.Description;
+            stockFromData.StockNumber = model.StockNumber;
+            stockFromData.AddedFromUser = model.AddFromUser;
+
+            this.data.SaveChanges();
+
+            return RedirectToAction("ShowAllStocks" ,"Everything");
         }
 
         [HttpGet]
