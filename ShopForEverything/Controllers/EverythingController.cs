@@ -104,6 +104,7 @@ namespace ShopForEverything.Controllers
            var allUserStocks = await this.stockService.ShowAllMyStocks(HttpContext);
 
             const int pageSize = 6;
+
             if (pg < 1)
                 pg = 1;
 

@@ -19,6 +19,7 @@
 <br />
 <br />
 
+
 <div class="row">
     @foreach (var item in Model)
     {
@@ -31,13 +32,13 @@
                 <a href="~/Images/@item.Picture" style="float:right">
                     <img src="~/Images/@item.Picture" width="80" height="80">
                 </a>
-                    <button type="button" class="btn btn-outline-success">
-                        <a asp-controller="Everything" asp-action="EditMyStock" asp-route-id="@item.Id">Edit</a>
-                    </button>
+                <button type="button" class="btn btn-outline-success">
+                    <a asp-controller="Everything" asp-action="EditMyStock" asp-route-id="@item.Id">Edit</a>
+                </button>
 
-                    <button type="button" class="btn btn-outline-warning">
-                            <a asp-controller="Everything" asp-action="DeleteMyStock" asp-route-id="@item.Id">Delete</a>
-                    </button>
+                <button type="button" class="btn btn-outline-warning">
+                    <a asp-controller="Everything" asp-action="DeleteMyStock" asp-route-id="@item.Id">Delete</a>
+                </button>
                 <button type="button" class="btn btn-outline-info">
                     <a asp-controller="Everything" asp-action="MyStockDetails" asp-route-id="@item.Id">Details</a>
                 </button>
@@ -47,5 +48,4 @@
         </div>
     }
 </div>
-
-<partial name="_pagerMyStock" model="@pager" />
+    <partial name="_pagerMyStock" model="@pager" />
