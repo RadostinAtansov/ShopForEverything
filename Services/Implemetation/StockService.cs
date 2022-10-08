@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Services.IShopServices;
 using Services.Model.ShopEverything;
 using ShopForEverything.Models;
+using System.Web.Mvc;
 
 namespace Services.Implemetation
 {
@@ -132,6 +133,29 @@ namespace Services.Implemetation
             return null;
         }
 
+         public async Task RemoveFromMyFavorite(string id, HttpContext httpContext)
+        {
+            //var user = await userManager.GetUserAsync(httpContext.User);
+            //var name = user.UserName;
+
+            //var userN = this.data.UserFavoriteStocks
+            //    .FirstOrDefault(u => u.ApplicationUserId == user.Id)
+            // ;
+
+
+            ////stock.FavoriteStock = null;
+            //var userStock = new UserFavoriteStocks()
+            //{
+            //    ApplicationUserId = user.Id,
+            //    FavoriteStockId = id,
+            //};
+
+            //userStock.FavoriteStockId = null;
+
+            //this.data.UserFavoriteStocks.Add(stock);
+            this.data.SaveChanges();
+        }
+
         public async Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext)
         {
             var userName = await userManager.GetUserAsync(httpContext.User);
@@ -212,5 +236,6 @@ namespace Services.Implemetation
 
             return stock;
         }
+
     }
 }

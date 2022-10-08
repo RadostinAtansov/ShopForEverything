@@ -6,14 +6,15 @@ namespace Services.IShopServices
 {
     public interface IStockService
     {
-        Task AddStock(AddStockServiceViewModel model, string path, HttpContext httpContext);
-        ICollection<ShowAllStockServiceViewModel> ShowAllStocks();
-        Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext);
-        Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext);
+        void DeleteMyStock(string id);
+        Task RemoveFromMyFavorite(string id, HttpContext httpContext);
+        EditMyStockServiceViewModel EditMyStock(string id);
         ShowStockDetailsServiceViewModel DetailsStock(string id);
         DetailsMyStockServiceViewModel MyStockDetails(string id);
+        ICollection<ShowAllStockServiceViewModel> ShowAllStocks();
         DetailsMyStockServiceViewModel MyFavoriteStockDetails(string id);
-        void DeleteMyStock(string id);
-        EditMyStockServiceViewModel EditMyStock(string id);
+        Task AddStock(AddStockServiceViewModel model, string path, HttpContext httpContext);
+        Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext);
+        Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext);
     }
 }

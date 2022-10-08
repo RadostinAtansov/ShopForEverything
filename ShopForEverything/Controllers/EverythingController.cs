@@ -35,6 +35,36 @@ namespace ShopForEverything.Controllers
         }
 
         [HttpGet]
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromMyFavorite(string id)
+        {
+
+            //This do`nt work in service only in controller bug maybe
+            //this.stockService.RemoveFromMyFavorite(id, HttpContext);
+
+            var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);
+            var name = user.UserName;
+
+            var userN = this.data.UserFavoriteStocks
+                .Where(u => u.ApplicationUserId == user.Id)
+                .Where(s => s.FavoriteStockId == id)
+                .FirstOrDefault();
+
+            var userStock = new UserFavoriteStocks()
+            {
+                ApplicationUserId = user.Id,
+                FavoriteStockId = id,
+            };
+
+            this.data.UserFavoriteStocks.Remove(userN);
+            this.data.SaveChanges();
+
+            var mf = MyFavorite();
+
+            return RedirectToAction("MyFavorite", mf);
+        }
+
+        [HttpGet]
         public IActionResult EditMyStock(string id)
         {
             var stock = this.stockService.EditMyStock(id);
@@ -68,7 +98,7 @@ namespace ShopForEverything.Controllers
         {
             this.stockService.DeleteMyStock(id);
 
-            return RedirectToAction("ShowAllStocks", "Everything");
+            return RedirectToAction("MyStocks", "Everything");
         }
 
         [HttpGet]
