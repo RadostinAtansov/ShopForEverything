@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ShowAllStockServiceViewModel>
 
 <div class="container-fluid">
-    <form class="d-flex"asp-controller="Everything" asp-action="SearchByWord" asp->
+    <form class="d-flex" asp-controller="Everything" asp-action="SearchByWord" asp->
         <input class="form-control me-sm-2" type="text" placeholder="search" name="searchWord">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">search</button>
     </form>
@@ -39,27 +39,28 @@ else if (TempData["AlertMessageSuccessefully"] != null)
 <br />
 
 <div class="row">
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
 
 
-    <div class="card text-white bg-dark mb-3" style="max-width: 20rem; margin-right:7em">
+        <div class="card text-white bg-dark mb-3" style="max-width: 20rem; margin-right:7em">
             <div class="card-header">@item.Name <a asp-controller="Everything" asp-action="AddToFavoriteStock" asp-route-id="@item.Id" style="float:right; color:orangered"> <i class="fa-solid fa-heart-pulse"></i></a></div>
-        <div class="card-body">
-            <h4 class="card-title">@item.Price</h4>
-            <p class="card-text">@item.Description</p>
-            <a href="~/Images/@item.Picture" style="float:right">
+            <div class="card-body">
+                <h4 class="card-title">@item.Price</h4>
+                <p class="card-text">@item.Description</p>
+                <a href="~/Images/@item.Picture" style="float:right">
                     <img src="~/Images/@item.Picture" width="80" height="80">
-            </a>
+                </a>
                 @*<button type="button" class="btn btn-outline-success">Primary</button>*@
                 <button type="button" class="btn btn-outline-warning">Buy</button>
                 <button type="button" class="btn btn-outline-info">
                     <a asp-controller="Everything" asp-action="ShowDetailsStock" asp-route-id="@item.Id">Details</a>
                 </button>
 
-        </div>
+            </div>
 
-    </div>
-}
+        </div>
+    }
 </div>
 
-<partial name="_pager" model="@pager"/>
+<partial name="_pager" model="@pager" />

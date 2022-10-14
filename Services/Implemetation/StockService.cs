@@ -237,5 +237,28 @@ namespace Services.Implemetation
             return stock;
         }
 
+        public ICollection<ShowAllStockServiceViewModel> SearchByWord(string searchWord)
+        {
+
+            var searchResult = this.data.Stocks
+                .Where(s =>
+                s.Name.Contains(searchWord) ||
+                s.Name.StartsWith(searchWord) ||
+                s.Name.EndsWith(searchWord))
+                .Select(s => new ShowAllStockServiceViewModel
+                {
+                    Name = s.Name,
+                    AddedFromUser = s.AddedFromUser,
+                    Color = s.Color,
+                    Description = s.Description,
+                    Picture = s.Picture,
+                    Price = s.Price,
+                    Size = s.Size,
+                    StockNumber = s.StockNumber,
+                })
+                .ToList();
+
+            return searchResult;
+        }
     }
 }

@@ -34,6 +34,28 @@ namespace ShopForEverything.Controllers
             this.httpContextAccessor = httpContextAccessor;
         }
 
+        
+        public IActionResult SearchByWord(string searchWord, int pg = 1)
+        {
+            var searchResult = this.stockService.SearchByWord(searchWord);
+
+            const int pageSize = 6;
+
+            if (pg < 1)
+                pg = 1;
+
+            int stockCount = searchResult.Count();
+
+            var pager = new Pager(stockCount, pg, pageSize);
+
+            int stockSkip = (pg - 1) * pageSize;
+
+            var data = searchResult.Skip(stockSkip).Take(pager.PageSize)
+                .ToList();
+
+            return View(searchResult);
+        }
+
         [HttpGet]
         [HttpPost]
         public async Task<IActionResult> RemoveFromMyFavorite(string id)

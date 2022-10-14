@@ -16,5 +16,6 @@ namespace Services.IShopServices
         Task AddStock(AddStockServiceViewModel model, string path, HttpContext httpContext);
         Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyStocks(HttpContext httpContext);
         Task<List<ShowAllFavoriteUserStocksServiceViewModel>> ShowAllMyFavoriteStocks(HttpContext httpContext);
+        ICollection<ShowAllStockServiceViewModel> SearchByWord(string searchWord);
     }
 }
