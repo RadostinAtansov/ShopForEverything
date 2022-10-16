@@ -53,8 +53,12 @@ namespace ShopForEverything.Controllers
             var data = searchResult.Skip(stockSkip).Take(pager.PageSize)
                 .ToList();
 
+            this.ViewBag.Pager = pager;
+
             return View(searchResult);
         }
+
+
 
         [HttpGet]
         [HttpPost]
@@ -323,6 +327,7 @@ namespace ShopForEverything.Controllers
                 using var fileStream = new FileStream(filePath, FileMode.Create);
                 model.CopyTo(fileStream);
             }
+
             return fileName;
         }
     }
