@@ -33,7 +33,6 @@ namespace ShopForEverything.Controllers
             WebHostEnvironment = webHostEnvironment;
             this.httpContextAccessor = httpContextAccessor;
         }
-
         
         public IActionResult SearchByWord(string searchWord, int pg = 1)
         {

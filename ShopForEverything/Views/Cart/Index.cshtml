@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ShopForEverything.Models.Cart.Product_Item>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Product.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Product.Price)</th>
+            <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+            <th>Sub-Total</th>
+            <th>@Html.DisplayNameFor(model => model.Product.Picture)</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cart in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => cart.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => cart.Product.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => cart.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => (cart.SubTotal))
+            </td>
+            <td>
+            <a href="~/Images/@cart.Product.Picture">
+                    <img src="~/Images/@cart.Product.Picture" width="80" height="80">
+            </a>
+            </td> 
+            <td>
+                @Html.ActionLink("+", "Add", "Cart", new { id = cart.Product.Id}, new { @class = "btn btn-primary" })
+                @Html.ActionLink("-", "Minus", "Cart", new { id = cart.Product.Id }, new { @class = "btn btn-danger" })
+​
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "Remove", "Cart", new { id = cart.Product.Id }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+        }
+        <tr>
+            <td colspan="5" style="text-align:right">
+                Total: @ViewBag.total
+            </td>
+        </tr>
+    </tbody>
+</table>

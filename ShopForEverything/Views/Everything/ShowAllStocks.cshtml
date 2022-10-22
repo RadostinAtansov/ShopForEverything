@@ -50,10 +50,12 @@ else if (TempData["AlertMessageSuccessefully"] != null)
             <a href="~/Images/@item.Picture" style="float:right">
                     <img src="~/Images/@item.Picture" width="80" height="80">
             </a>
-                @*<button type="button" class="btn btn-outline-success">Primary</button>*@
-                <button type="button" class="btn btn-outline-warning">Add To Cart</button>
+                <button type="button" class="btn btn-outline-warning">
+                    <a asp-controller="Cart" asp-action="Buy" asp-route-id="@item.Id">Add To Cart</a>
+                </button>
                 <button type="button" class="btn btn-outline-info">
                     <a asp-controller="Everything" asp-action="ShowDetailsStock" asp-route-id="@item.Id">Details</a>
+                @*<button type="button" class="btn btn-outline-success">Buy</button>*@
                 </button>
 
         </div>

@@ -5,10 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ShopForEverything.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
+
+//builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+});
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ShopEverythingDbContext>(options =>
@@ -17,19 +25,15 @@ builder.Services.AddDbContext<ShopEverythingDbContext>(options =>
 builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
 
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(20);
-});
+builder.Services.AddMvc();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ShopEverythingDbContext>();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddMvc();
 
 builder.Services.AddHealthChecks();
 
@@ -56,12 +60,17 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession();
+
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSession();
+app.UseStaticFiles();
+
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
